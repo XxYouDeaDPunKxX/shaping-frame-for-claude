@@ -1,0 +1,24 @@
+# Shaping Frame for Claude
+
+> A behavioral routing layer for clearer, more useful AI collaboration.
+
+This site is the GitHub Pages landing page for the repository:
+https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude
+
+Canonical page:
+https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/
+
+Source branch:
+https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/tree/main
+
+Primary source files:
+- README: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md
+- Skill package: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill
+- Custom instruction: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt
+- License: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE
+
+Machine-readable manifest:
+https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/raw-manifest.json
+
+Summary:
+Shaping Frame for Claude is a compact interaction protocol / skill designed to help Claude choose the right collaboration mode, reduce ambiguity, and provide more useful outputs across exploratory, technical, and practical tasks.

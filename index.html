@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shaping Frame for Claude</title>
+  <meta name="description" content="A behavioral routing layer for clearer, more useful AI collaboration." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Shaping Frame for Claude" />
+  <meta property="og:description" content="A behavioral routing layer for clearer, more useful AI collaboration." />
+  <meta property="og:url" content="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/" />
+  <meta property="og:image" content="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    :root {
+      --bg: #030712;
+      --panel: rgba(15, 23, 42, 0.78);
+      --panel-strong: rgba(15, 23, 42, 0.96);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --soft: #94a3b8;
+      --line: rgba(148, 163, 184, 0.25);
+      --accent: #f6d365;
+      --accent-2: #fda085;
+      --ok: #86efac;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(246, 211, 101, 0.14), transparent 30rem),
+        radial-gradient(circle at top right, rgba(253, 160, 133, 0.16), transparent 28rem),
+        linear-gradient(135deg, #020617 0%, #111827 46%, #030712 100%);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(3, 7, 18, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      color: #111827;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(253, 160, 133, 0.28);
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .navlinks a { text-decoration: none; }
+    .navlinks a:hover { color: var(--text); }
+
+    .hero {
+      padding: 92px 0 64px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.72);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ok);
+      box-shadow: 0 0 20px rgba(134, 239, 172, 0.8);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 8vw, 6.8rem);
+      line-height: 0.92;
+      letter-spacing: -0.08em;
+      margin: 0 0 26px;
+    }
+
+    .gradient {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: clamp(1.1rem, 2.1vw, 1.42rem);
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 0 32px;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-weight: 800;
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--text);
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); border-color: rgba(248, 250, 252, 0.42); }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #111827;
+      border: 0;
+      box-shadow: 0 20px 48px rgba(253, 160, 133, 0.24);
+    }
+
+    .note {
+      margin-top: 18px;
+      color: var(--soft);
+      font-size: 0.95rem;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .terminal {
+      min-height: 420px;
+    }
+
+    .bar {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .bubble { width: 12px; height: 12px; border-radius: 50%; background: #ef4444; }
+    .bubble:nth-child(2) { background: #f59e0b; }
+    .bubble:nth-child(3) { background: #22c55e; }
+
+    pre {
+      margin: 0;
+      padding: 24px;
+      white-space: pre-wrap;
+      color: #dbeafe;
+      font-size: 0.95rem;
+    }
+
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+
+    section { padding: 48px 0; }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin: 0 0 16px;
+    }
+    .section-copy { color: var(--muted); max-width: 780px; margin: 0 0 28px; font-size: 1.08rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature {
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.62);
+    }
+    .feature h3 { margin: 0 0 8px; font-size: 1.15rem; }
+    .feature p { margin: 0; color: var(--muted); }
+
+    .steps { display: grid; gap: 14px; counter-reset: step; }
+    .step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.62);
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #111827;
+      font-weight: 900;
+    }
+    .step h3 { margin: 0 0 4px; }
+    .step p { margin: 0; color: var(--muted); }
+
+    .inline-link { color: #fed7aa; font-weight: 800; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
+
+    .callout {
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid rgba(253, 160, 133, 0.32);
+      background: rgba(253, 160, 133, 0.09);
+      border-radius: 24px;
+      color: #ffedd5;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0 46px;
+      color: var(--soft);
+    }
+    footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+    .footlinks { display: flex; flex-wrap: wrap; gap: 14px; }
+    .footlinks a { color: var(--muted); text-decoration: none; }
+    .footlinks a:hover { color: var(--text); }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; padding-top: 64px; }
+      .grid { grid-template-columns: 1fr; }
+      .navlinks { display: none; }
+      pre { font-size: 0.86rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav aria-label="Main navigation">
+        <a class="brand" href="#top" aria-label="Shaping Frame home">
+          <span class="logo">SF</span>
+          <span>Shaping Frame</span>
+        </a>
+        <div class="navlinks">
+          <a href="#why">Why</a>
+          <a href="#install">Install</a>
+          <a href="#activate">Activate</a>
+          <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude">Repo</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Claude skill + custom instruction frame</div>
+        <h1>Shape the <span class="gradient">conversation.</span></h1>
+        <p class="lead">Shaping Frame helps Claude route answers through clearer modes, stronger intent detection, and more useful collaboration patterns without turning every request into procedural sludge.</p>
+        <div class="actions">
+          <a class="btn primary" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude">Open repo</a>
+          <a class="btn" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill">Download skill</a>
+          <a class="btn" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md">View README</a>
+          <a class="btn" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt">Custom instruction</a>
+        </div>
+        <p class="note">This GitHub Pages branch contains only the landing page. Source artifacts live on the <a class="inline-link" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/tree/main">main branch</a>.</p>
+      </div>
+      <div class="card terminal" aria-label="Protocol preview">
+        <div class="bar"><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div>
+        <pre><code>frame.detect(intent)
+  → choose collaboration mode
+  → reduce ambiguity
+  → preserve useful context
+  → answer in the right shape
+
+modes:
+  explore   clarify without stalling
+  build     produce usable artifacts
+  debug     inspect, isolate, patch
+  explain   compress without dumbing down</code></pre>
+      </div>
+    </div>
+
+    <section id="why">
+      <div class="wrap">
+        <h2 class="section-title">Less fog. More signal.</h2>
+        <p class="section-copy">The frame is designed for conversations where you want Claude to infer the right working posture, handle uncertainty better, and stay useful while tasks shift between ideation, implementation, review, and refinement.</p>
+        <div class="grid">
+          <article class="feature">
+            <h3>Intent routing</h3>
+            <p>Encourages the assistant to identify whether the user needs exploration, execution, critique, repair, or synthesis.</p>
+          </article>
+          <article class="feature">
+            <h3>Fewer dead stops</h3>
+            <p>Biases toward sensible assumptions and partial progress instead of asking for unnecessary confirmation.</p>
+          </article>
+          <article class="feature">
+            <h3>Artifact aware</h3>
+            <p>Supports practical output: files, edits, specs, patches, summaries, and structured deliverables.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <h2 class="section-title">Install the skill.</h2>
+        <p class="section-copy">Download the packaged skill from the repository source branch, then upload it to Claude where custom skills are supported.</p>
+        <div class="steps">
+          <div class="step">
+            <div>
+              <h3>Download</h3>
+              <p>Get <a class="inline-link" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill">shaping-frame.skill</a> from the main branch.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Upload</h3>
+              <p>Add the skill package to Claude's skill interface, then enable it for the conversations where you want the frame active.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3>Pair it</h3>
+              <p>For stronger behavior, pair the skill with the repository's custom instruction file.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          Tip: keep the repository README nearby. It is the canonical explanation of the frame, its purpose, and expected usage boundaries.
+        </div>
+      </div>
+    </section>
+
+    <section id="activate">
+      <div class="wrap">
+        <h2 class="section-title">Activate the frame.</h2>
+        <p class="section-copy">Use the <a class="inline-link" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt">CUSTOM_INSTRUCTION.txt</a> file as the companion instruction layer. The skill package supplies the protocol body; the custom instruction helps Claude apply it consistently.</p>
+        <div class="card">
+          <pre><code>1. Open the repository.
+2. Read the README.
+3. Download shaping-frame.skill from main.
+4. Copy or adapt CUSTOM_INSTRUCTION.txt.
+5. Start a conversation and let the frame route the work.</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>Shaping Frame for Claude · GitHub Pages landing page</div>
+      <div class="footlinks">
+        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude">repo</a>
+        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md">readme</a>
+        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE">license</a>
+        <a href="llms.txt">llms.txt</a>
+        <a href="raw-manifest.json">manifest</a>
+        <a href="sitemap.xml">sitemap</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

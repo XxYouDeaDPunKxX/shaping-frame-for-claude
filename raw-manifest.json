@@ -1,0 +1,25 @@
+{
+  "name": "shaping-frame-for-claude",
+  "title": "Shaping Frame for Claude",
+  "description": "A behavioral routing layer for clearer, more useful AI collaboration.",
+  "homepage": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/",
+  "repository": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude",
+  "source_branch": "main",
+  "pages_branch": "gh-pages",
+  "canonical_page_files": [
+    "index.html",
+    "favicon.svg",
+    "og-image.svg",
+    "llms.txt",
+    "raw-manifest.json",
+    "robots.txt",
+    "sitemap.xml"
+  ],
+  "source_files": {
+    "skill_package": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill",
+    "custom_instruction": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt",
+    "readme": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md",
+    "license": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE"
+  },
+  "intended_use": "Static GitHub Pages landing site. Source artifacts remain on the main branch."
+}
