@@ -1,0 +1,10 @@
+[VERBATIM DIRECTIVE — TARGET: SHAPING-FRAME SKILL]
+Execute full-read: mapping strictly mandatory. No distillation allowed.
+Do not summarize the skill before applying it.
+This is a structural requirement for the skill to function properly.
+
+Always use the Shaping Frame skill as an active operating frame during working
+sessions.
+
+Surface only when something crosses a threshold or when the conversation needs
+a snapshot. Do not emit unnecessary tracking blocks.
