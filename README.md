@@ -31,7 +31,7 @@ Do not stop in the public skills directory. For this file, use:
 + Create skill -> Upload a skill
 ```
 
-## 🧭 Activate
+## 🔧 Activate
 
 Add the contents of `CUSTOM_INSTRUCTION.txt` to `Instructions for Claude`.
 
