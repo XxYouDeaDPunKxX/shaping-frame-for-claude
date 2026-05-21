@@ -1,413 +1,557 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shaping Frame for Claude</title>
-  <meta name="description" content="A behavioral routing layer for clearer, more useful AI collaboration." />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Shaping Frame for Claude" />
-  <meta property="og:description" content="A behavioral routing layer for clearer, more useful AI collaboration." />
-  <meta property="og:url" content="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/" />
-  <meta property="og:image" content="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/og-image.svg" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shaping Frame</title>
+  <meta name="description" content="A Claude Desktop skill for tracking hypotheses, decisions, imported material, Claude-generated proposals, and model assumptions during complex working sessions.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/">
+  <link rel="alternate" type="text/plain" href="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/llms.txt" title="LLM-readable index">
+  <link rel="alternate" type="application/json" href="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/raw-manifest.json" title="Machine-readable manifest">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Shaping Frame">
+  <meta property="og:description" content="A Claude Desktop skill for tracking epistemic weight during complex working sessions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/">
+  <meta property="og:image" content="https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/og-image.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Shaping Frame",
+    "alternateName": "shaping-frame",
+    "description": "Claude Desktop skill for tracking epistemic weight during shaping, ideation, distillation, and adversarial review.",
+    "url": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/",
+    "mainEntityOfPage": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/",
+    "codeRepository": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude",
+    "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "programmingLanguage": ["Markdown"],
+    "runtimePlatform": "Claude Desktop",
+    "applicationCategory": "Productivity",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "XxYouDeaDPunKxX"
+    },
+    "about": [
+      "Claude skill",
+      "epistemic weight",
+      "decision tracking",
+      "conversation shaping",
+      "model assumptions"
+    ],
+    "keywords": [
+      "claude",
+      "claude-skill",
+      "shaping-frame",
+      "epistemic-weight",
+      "custom-skill",
+      "cognitive-frame"
+    ]
+  }
+  </script>
   <style>
     :root {
-      --bg: #030712;
-      --panel: rgba(15, 23, 42, 0.78);
-      --panel-strong: rgba(15, 23, 42, 0.96);
-      --text: #f8fafc;
-      --muted: #cbd5e1;
-      --soft: #94a3b8;
-      --line: rgba(148, 163, 184, 0.25);
-      --accent: #f6d365;
-      --accent-2: #fda085;
-      --ok: #86efac;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
       color-scheme: dark;
+      --bg: #171a18;
+      --panel: #202621;
+      --panel-2: #293129;
+      --text: #f4efe5;
+      --muted: #c4bbad;
+      --soft: #958d80;
+      --line: #3d473d;
+      --mint: #8cd7bd;
+      --mint-2: #56b79a;
+      --gold: #d6aa63;
+      --violet: #b49be2;
+      --code: #30382f;
+      --max: 1280px;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(246, 211, 101, 0.14), transparent 30rem),
-        radial-gradient(circle at top right, rgba(253, 160, 133, 0.16), transparent 28rem),
-        linear-gradient(135deg, #020617 0%, #111827 46%, #030712 100%);
-      line-height: 1.6;
+        radial-gradient(circle at 78% 0%, rgba(140, 215, 189, 0.12), transparent 34rem),
+        linear-gradient(180deg, #20241f 0, var(--bg) 25rem);
     }
 
-    a { color: inherit; }
-    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(16px);
-      background: rgba(3, 7, 18, 0.72);
-      border-bottom: 1px solid var(--line);
+    a {
+      color: var(--mint);
+      text-underline-offset: 0.18em;
     }
 
-    nav {
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
+    a:focus-visible,
+    .button:focus-visible {
+      outline: 3px solid rgba(140, 215, 189, 0.34);
+      outline-offset: 3px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      font-weight: 800;
-      letter-spacing: -0.03em;
+    .wrap {
+      width: min(calc(100% - 40px), var(--max));
+      margin-inline: auto;
     }
-
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display: grid;
-      place-items: center;
-      color: #111827;
-      font-weight: 900;
-      box-shadow: 0 12px 28px rgba(253, 160, 133, 0.28);
-    }
-
-    .navlinks {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .navlinks a { text-decoration: none; }
-    .navlinks a:hover { color: var(--text); }
 
     .hero {
-      padding: 92px 0 64px;
+      min-height: min(760px, 92vh);
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 48px;
+      grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.95fr);
+      gap: clamp(34px, 6vw, 84px);
       align-items: center;
+      padding: 58px 0 48px;
     }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid var(--line);
-      background: rgba(15, 23, 42, 0.72);
-      color: var(--muted);
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-size: 0.88rem;
-      margin-bottom: 20px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--ok);
-      box-shadow: 0 0 20px rgba(134, 239, 172, 0.8);
+      margin: 0 0 18px;
+      color: var(--mint);
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     h1 {
-      font-size: clamp(3rem, 8vw, 6.8rem);
-      line-height: 0.92;
-      letter-spacing: -0.08em;
-      margin: 0 0 26px;
-    }
-
-    .gradient {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      color: transparent;
+      margin: 0;
+      max-width: 840px;
+      font-size: 7rem;
+      line-height: 0.9;
+      letter-spacing: 0;
     }
 
     .lead {
-      font-size: clamp(1.1rem, 2.1vw, 1.42rem);
+      max-width: 790px;
+      margin: 28px 0 0;
       color: var(--muted);
-      max-width: 680px;
-      margin: 0 0 32px;
+      font-size: 1.42rem;
     }
 
-    .actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
 
-    .btn {
+    .source-note {
+      max-width: 760px;
+      margin: 16px 0 0;
+      color: var(--soft);
+      font-size: 0.96rem;
+    }
+
+    .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      min-height: 48px;
+      min-height: 46px;
       padding: 0 18px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      text-decoration: none;
+      border: 1px solid var(--mint);
+      border-radius: 7px;
+      background: var(--mint);
+      color: #11231d;
       font-weight: 800;
-      background: rgba(15, 23, 42, 0.75);
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--mint);
+    }
+
+    .frame {
+      min-width: 0;
+      padding: clamp(18px, 2.3vw, 30px);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(41, 49, 41, 0.98), rgba(32, 38, 33, 0.96));
+      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    .frame-title {
+      margin: 0 0 18px;
+      font-size: 1.68rem;
+      font-weight: 800;
+    }
+
+    .track {
+      display: grid;
+      gap: 10px;
+    }
+
+    .track-row {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      min-height: 56px;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+    }
+
+    .track-row.focus {
+      border-color: rgba(140, 215, 189, 0.7);
+      background: rgba(86, 183, 154, 0.16);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      border-radius: 6px;
+      background: var(--code);
+      color: var(--mint);
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .track-row span:last-child {
       color: var(--text);
-      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+      font-weight: 650;
     }
 
-    .btn:hover { transform: translateY(-2px); border-color: rgba(248, 250, 252, 0.42); }
-    .btn.primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #111827;
-      border: 0;
-      box-shadow: 0 20px 48px rgba(253, 160, 133, 0.24);
+    main {
+      padding-bottom: 64px;
     }
 
-    .note {
+    .band {
+      padding: clamp(46px, 7vw, 84px) 0;
+    }
+
+    .rule-band {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(32, 38, 33, 0.58);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: clamp(30px, 6vw, 72px);
+      align-items: start;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 3.7rem;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-copy {
+      max-width: 650px;
       margin-top: 18px;
-      color: var(--soft);
-      font-size: 0.95rem;
+      color: var(--muted);
+      font-size: 1.14rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
 
     .card {
+      min-width: 0;
+      min-height: 172px;
+      padding: 20px;
       border: 1px solid var(--line);
+      border-radius: 9px;
       background: var(--panel);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
     }
 
-    .terminal {
-      min-height: 420px;
+    .card strong {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--mint);
+      font-size: 1.04rem;
     }
 
-    .bar {
-      height: 52px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 18px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .bubble { width: 12px; height: 12px; border-radius: 50%; background: #ef4444; }
-    .bubble:nth-child(2) { background: #f59e0b; }
-    .bubble:nth-child(3) { background: #22c55e; }
-
-    pre {
+    p {
       margin: 0;
-      padding: 24px;
-      white-space: pre-wrap;
-      color: #dbeafe;
-      font-size: 0.95rem;
     }
 
-    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
-
-    section { padding: 48px 0; }
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1;
-      letter-spacing: -0.06em;
-      margin: 0 0 16px;
+    p + p {
+      margin-top: 14px;
     }
-    .section-copy { color: var(--muted); max-width: 780px; margin: 0 0 28px; font-size: 1.08rem; }
 
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .feature {
+    .card p,
+    .body-copy {
+      color: var(--muted);
+    }
+
+    .install {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr);
+      gap: clamp(22px, 4vw, 48px);
+      align-items: stretch;
+    }
+
+    .panel {
+      min-width: 0;
       padding: 24px;
-      border-radius: 24px;
       border: 1px solid var(--line);
-      background: rgba(15, 23, 42, 0.62);
+      border-radius: 9px;
+      background: var(--panel);
     }
-    .feature h3 { margin: 0 0 8px; font-size: 1.15rem; }
-    .feature p { margin: 0; color: var(--muted); }
 
-    .steps { display: grid; gap: 14px; counter-reset: step; }
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 1.22rem;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
     .step {
       display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 16px;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
       align-items: start;
-      padding: 20px;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: rgba(15, 23, 42, 0.62);
     }
-    .step::before {
-      counter-increment: step;
-      content: counter(step);
+
+    .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 34px;
       height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #111827;
-      font-weight: 900;
+      border-radius: 50%;
+      background: rgba(140, 215, 189, 0.15);
+      color: var(--mint);
+      font-weight: 800;
     }
-    .step h3 { margin: 0 0 4px; }
-    .step p { margin: 0; color: var(--muted); }
 
-    .inline-link { color: #fed7aa; font-weight: 800; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
+    code,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    }
 
-    .callout {
-      margin-top: 22px;
-      padding: 22px;
-      border: 1px solid rgba(253, 160, 133, 0.32);
-      background: rgba(253, 160, 133, 0.09);
-      border-radius: 24px;
-      color: #ffedd5;
+    code {
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      margin: 16px 0 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--code);
+      color: var(--text);
+      font-size: 0.9rem;
     }
 
     footer {
+      padding: 22px 0;
       border-top: 1px solid var(--line);
-      padding: 32px 0 46px;
-      color: var(--soft);
+      color: var(--muted);
+      font-size: 0.92rem;
     }
-    footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
-    .footlinks { display: flex; flex-wrap: wrap; gap: 14px; }
-    .footlinks a { color: var(--muted); text-decoration: none; }
-    .footlinks a:hover { color: var(--text); }
 
-    @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; padding-top: 64px; }
-      .grid { grid-template-columns: 1fr; }
-      .navlinks { display: none; }
-      pre { font-size: 0.86rem; }
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .machine-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+    }
+
+    @media (max-width: 940px) {
+      .hero,
+      .split,
+      .install {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 4.6rem;
+      }
+
+      h2 {
+        font-size: 2.7rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      h1 {
+        font-size: 2.76rem;
+      }
+
+      h2 {
+        font-size: 2.12rem;
+      }
+
+      .lead {
+        font-size: 1.12rem;
+      }
+
+      .frame-title {
+        font-size: 1.32rem;
+      }
+
+      .section-copy {
+        font-size: 1rem;
+      }
+
+      .actions {
+        align-items: stretch;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .track-row {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <nav aria-label="Main navigation">
-        <a class="brand" href="#top" aria-label="Shaping Frame home">
-          <span class="logo">SF</span>
-          <span>Shaping Frame</span>
-        </a>
-        <div class="navlinks">
-          <a href="#why">Why</a>
-          <a href="#install">Install</a>
-          <a href="#activate">Activate</a>
-          <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude">Repo</a>
-        </div>
-      </nav>
+  <header class="wrap hero">
+    <div>
+      <p class="eyebrow">Claude Desktop skill</p>
+      <h1>Shaping Frame</h1>
+      <p class="lead">A cognitive layer for Claude that keeps hypotheses, decisions, imported material, Claude-generated proposals, and model assumptions from collapsing into one another.</p>
+      <div class="actions" aria-label="Primary links">
+        <a class="button" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude" target="_blank" rel="noopener">Open repo</a>
+        <a class="button secondary" href="https://raw.githubusercontent.com/XxYouDeaDPunKxX/shaping-frame-for-claude/main/shaping-frame.skill" target="_blank" rel="noopener">Download skill</a>
+        <a class="button secondary" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md" target="_blank" rel="noopener">View README</a>
+        <a class="button secondary" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt" target="_blank" rel="noopener">Custom instruction</a>
+      </div>
+      <p class="source-note">Source files live on the <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/tree/main" target="_blank" rel="noopener">main branch</a>. This page is only the public entry point.</p>
     </div>
+
+    <aside class="frame" aria-label="Epistemic tracking preview">
+      <p class="frame-title">Weight in motion, not static labels.</p>
+      <div class="track">
+        <div class="track-row focus"><span class="tag">OP</span><span>Operator decisions and corrections</span></div>
+        <div class="track-row"><span class="tag">EXT</span><span>Imported material, not automatic approval</span></div>
+        <div class="track-row"><span class="tag">AI</span><span>Claude proposals inside the session</span></div>
+        <div class="track-row"><span class="tag">MP</span><span>Model priors and general assumptions</span></div>
+        <div class="track-row"><span class="tag">DSK</span><span>Documentary state from available material</span></div>
+      </div>
+    </aside>
   </header>
 
-  <main id="top">
-    <div class="wrap hero">
-      <div>
-        <div class="eyebrow"><span class="dot"></span> Claude skill + custom instruction frame</div>
-        <h1>Shape the <span class="gradient">conversation.</span></h1>
-        <p class="lead">Shaping Frame helps Claude route answers through clearer modes, stronger intent detection, and more useful collaboration patterns without turning every request into procedural sludge.</p>
-        <div class="actions">
-          <a class="btn primary" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude">Open repo</a>
-          <a class="btn" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill">Download skill</a>
-          <a class="btn" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md">View README</a>
-          <a class="btn" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt">Custom instruction</a>
+  <main>
+    <section class="band rule-band" aria-labelledby="purpose-title">
+      <div class="wrap split">
+        <div>
+          <h2 id="purpose-title">The problem is silent promotion.</h2>
+          <p class="section-copy">In long shaping sessions, an unapproved phrase or idea can become a premise simply because it gets reused. Shaping Frame makes that crossing visible before it hardens.</p>
         </div>
-        <p class="note">This GitHub Pages branch contains only the landing page. Source artifacts live on the <a class="inline-link" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/tree/main">main branch</a>.</p>
-      </div>
-      <div class="card terminal" aria-label="Protocol preview">
-        <div class="bar"><span class="bubble"></span><span class="bubble"></span><span class="bubble"></span></div>
-        <pre><code>frame.detect(intent)
-  → choose collaboration mode
-  → reduce ambiguity
-  → preserve useful context
-  → answer in the right shape
-
-modes:
-  explore   clarify without stalling
-  build     produce usable artifacts
-  debug     inspect, isolate, patch
-  explain   compress without dumbing down</code></pre>
-      </div>
-    </div>
-
-    <section id="why">
-      <div class="wrap">
-        <h2 class="section-title">Less fog. More signal.</h2>
-        <p class="section-copy">The frame is designed for conversations where you want Claude to infer the right working posture, handle uncertainty better, and stay useful while tasks shift between ideation, implementation, review, and refinement.</p>
-        <div class="grid">
-          <article class="feature">
-            <h3>Intent routing</h3>
-            <p>Encourages the assistant to identify whether the user needs exploration, execution, critique, repair, or synthesis.</p>
+        <div class="cards" aria-label="Common failure modes">
+          <article class="card">
+            <strong>Hypothesis becomes fact</strong>
+            <p>A possible explanation starts acting like confirmed ground.</p>
           </article>
-          <article class="feature">
-            <h3>Fewer dead stops</h3>
-            <p>Biases toward sensible assumptions and partial progress instead of asking for unnecessary confirmation.</p>
+          <article class="card">
+            <strong>Draft becomes spec</strong>
+            <p>Working language turns into a rule before the operator accepts it.</p>
           </article>
-          <article class="feature">
-            <h3>Artifact aware</h3>
-            <p>Supports practical output: files, edits, specs, patches, summaries, and structured deliverables.</p>
+          <article class="card">
+            <strong>Claude becomes OP</strong>
+            <p>A generated proposal starts behaving like the operator's decision.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="install">
-      <div class="wrap">
-        <h2 class="section-title">Install the skill.</h2>
-        <p class="section-copy">Download the packaged skill from the repository source branch, then upload it to Claude where custom skills are supported.</p>
-        <div class="steps">
-          <div class="step">
-            <div>
-              <h3>Download</h3>
-              <p>Get <a class="inline-link" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill">shaping-frame.skill</a> from the main branch.</p>
+    <section class="wrap band" id="install" aria-labelledby="install-title">
+      <div class="install">
+        <article class="panel">
+          <h2 id="install-title">Install</h2>
+          <div class="steps">
+            <div class="step">
+              <span class="num">1</span>
+              <p class="body-copy">In a Claude Desktop chat, open <code>+ -> Skills -> Manage Skills</code>.</p>
+            </div>
+            <div class="step">
+              <span class="num">2</span>
+              <p class="body-copy">In <code>Customize > Skills</code>, click the <code>+</code> button in the center column.</p>
+            </div>
+            <div class="step">
+              <span class="num">3</span>
+              <p class="body-copy">Download <a href="https://raw.githubusercontent.com/XxYouDeaDPunKxX/shaping-frame-for-claude/main/shaping-frame.skill" target="_blank" rel="noopener"><code>shaping-frame.skill</code></a> from <code>main</code>, then choose <code>+ Create skill -> Upload a skill</code> and upload the downloaded file.</p>
             </div>
           </div>
-          <div class="step">
-            <div>
-              <h3>Upload</h3>
-              <p>Add the skill package to Claude's skill interface, then enable it for the conversations where you want the frame active.</p>
-            </div>
-          </div>
-          <div class="step">
-            <div>
-              <h3>Pair it</h3>
-              <p>For stronger behavior, pair the skill with the repository's custom instruction file.</p>
-            </div>
-          </div>
-        </div>
-        <div class="callout">
-          Tip: keep the repository README nearby. It is the canonical explanation of the frame, its purpose, and expected usage boundaries.
-        </div>
+        </article>
+
+        <article class="panel">
+          <h2>Activate</h2>
+          <p class="body-copy">Open <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt" target="_blank" rel="noopener"><code>CUSTOM_INSTRUCTION.txt</code></a> from <code>main</code>, copy its contents, and add them to <code>Instructions for Claude</code>.</p>
+          <pre><code>initials -> Settings -> Instructions for Claude</code></pre>
+          <p class="body-copy">Do not stop in the public skills directory. This package is a custom skill file.</p>
+          <p class="body-copy">For the full source and operating notes, use the <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md" target="_blank" rel="noopener">README on <code>main</code></a>.</p>
+        </article>
       </div>
     </section>
 
-    <section id="activate">
-      <div class="wrap">
-        <h2 class="section-title">Activate the frame.</h2>
-        <p class="section-copy">Use the <a class="inline-link" href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt">CUSTOM_INSTRUCTION.txt</a> file as the companion instruction layer. The skill package supplies the protocol body; the custom instruction helps Claude apply it consistently.</p>
-        <div class="card">
-          <pre><code>1. Open the repository.
-2. Read the README.
-3. Download shaping-frame.skill from main.
-4. Copy or adapt CUSTOM_INSTRUCTION.txt.
-5. Start a conversation and let the frame route the work.</code></pre>
+    <section class="wrap band" aria-labelledby="limits-title">
+      <div class="split">
+        <div>
+          <h2 id="limits-title">It is a frame, not a memory system.</h2>
+          <p class="section-copy">Claude does not run this skill through a background hook before each write or decision. The frame is reconstructed through conversation context and the custom instruction anchor.</p>
+        </div>
+        <div class="panel">
+          <h3>Known limit</h3>
+          <p class="body-copy">In long or fast sessions, some threshold crossings may be missed. That is a host constraint, not a skill defect.</p>
+          <p class="body-copy">The skill reduces drift by making important crossings visible. It does not eliminate drift.</p>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="wrap">
-      <div>Shaping Frame for Claude · GitHub Pages landing page</div>
-      <div class="footlinks">
-        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude">repo</a>
-        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md">readme</a>
-        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE">license</a>
+    <div class="wrap footer-row">
+      <span>Shaping Frame</span>
+      <div class="machine-links" aria-label="Project links">
+        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude" target="_blank" rel="noopener">repo</a>
+        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md" target="_blank" rel="noopener">README</a>
+        <a href="https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE" target="_blank" rel="noopener">license</a>
+        <span>Machine-readable:</span>
         <a href="llms.txt">llms.txt</a>
         <a href="raw-manifest.json">manifest</a>
         <a href="sitemap.xml">sitemap</a>

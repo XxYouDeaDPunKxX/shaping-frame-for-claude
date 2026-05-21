@@ -1,24 +1,33 @@
-# Shaping Frame for Claude
+# Shaping Frame
 
-> A behavioral routing layer for clearer, more useful AI collaboration.
+Canonical page: https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/
+Repository: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude
+Source branch: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/tree/main
+License: CC BY-SA 4.0
+License file: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE
 
-This site is the GitHub Pages landing page for the repository:
-https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude
+Shaping Frame is a Claude Desktop skill for tracking epistemic weight during
+complex working sessions. It separates operator decisions, imported material,
+Claude-generated proposals, model priors, and documentary state.
 
-Canonical page:
-https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/
-
-Source branch:
-https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/tree/main
+The public page is a GitHub Pages project site for orientation. Source and
+distribution files live on the repository main branch.
 
 Primary source files:
-- README: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md
-- Skill package: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill
+
+- Skill package: https://raw.githubusercontent.com/XxYouDeaDPunKxX/shaping-frame-for-claude/main/shaping-frame.skill
 - Custom instruction: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt
+- README: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md
 - License: https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE
 
-Machine-readable manifest:
-https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/raw-manifest.json
+The skill package contains:
 
-Summary:
-Shaping Frame for Claude is a compact interaction protocol / skill designed to help Claude choose the right collaboration mode, reduce ambiguity, and provide more useful outputs across exploratory, technical, and practical tasks.
+- shaping-frame/SKILL.md
+- shaping-frame/references/frame.md
+- shaping-frame/references/dogana.md
+- shaping-frame/references/snapshot.md
+
+Discovery companion:
+
+- Manifest: https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/raw-manifest.json
+- Sitemap: https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/sitemap.xml

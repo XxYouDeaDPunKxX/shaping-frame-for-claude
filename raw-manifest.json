@@ -1,25 +1,69 @@
 {
-  "name": "shaping-frame-for-claude",
-  "title": "Shaping Frame for Claude",
-  "description": "A behavioral routing layer for clearer, more useful AI collaboration.",
-  "homepage": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/",
+  "name": "Shaping Frame",
+  "skill_name": "shaping-frame",
   "repository": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude",
-  "source_branch": "main",
-  "pages_branch": "gh-pages",
-  "canonical_page_files": [
-    "index.html",
-    "favicon.svg",
-    "og-image.svg",
-    "llms.txt",
-    "raw-manifest.json",
-    "robots.txt",
-    "sitemap.xml"
+  "canonical_page": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/",
+  "license": "CC BY-SA 4.0",
+  "type": "claude-desktop-skill",
+  "deployment": {
+    "platform": "GitHub Pages",
+    "pages_type": "PROJECT_SITE",
+    "source_branch": "gh-pages",
+    "source_path": "/",
+    "custom_domain": null,
+    "domain_root": "https://xxyoudeadpunkxx.github.io/",
+    "site_root": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/",
+    "discovery_root": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/"
+  },
+  "summary": "Claude Desktop skill for tracking epistemic weight during shaping, ideation, distillation, and adversarial review.",
+  "distribution_files": [],
+  "package_files": [
+    "shaping-frame/SKILL.md",
+    "shaping-frame/references/frame.md",
+    "shaping-frame/references/dogana.md",
+    "shaping-frame/references/snapshot.md"
   ],
-  "source_files": {
-    "skill_package": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/raw/refs/heads/main/shaping-frame.skill",
-    "custom_instruction": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt",
+  "source_classes": [
+    {
+      "id": "OP",
+      "name": "Operator",
+      "description": "Operator intent, correction, constraint, or decision."
+    },
+    {
+      "id": "EXT",
+      "name": "External Material",
+      "description": "External material brought into the conversation."
+    },
+    {
+      "id": "AI",
+      "name": "In-session AI",
+      "description": "Claude-generated proposal inside the session."
+    },
+    {
+      "id": "MP",
+      "name": "Model Prior",
+      "description": "Model prior, convention, or generic assumption."
+    },
+    {
+      "id": "DSK",
+      "name": "Documentary State",
+      "description": "State from uploaded or available material."
+    }
+  ],
+  "discovery": {
+    "llms_txt": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/llms.txt",
+    "raw_manifest": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/raw-manifest.json",
+    "sitemap": "https://xxyoudeadpunkxx.github.io/shaping-frame-for-claude/sitemap.xml"
+  },
+  "source_branch": "main",
+  "source_urls": {
+    "repository": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude",
+    "main_branch": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/tree/main",
     "readme": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/README.md",
+    "skill_package_download": "https://raw.githubusercontent.com/XxYouDeaDPunKxX/shaping-frame-for-claude/main/shaping-frame.skill",
+    "skill_package_source": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/shaping-frame.skill",
+    "custom_instruction": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/CUSTOM_INSTRUCTION.txt",
     "license": "https://github.com/XxYouDeaDPunKxX/shaping-frame-for-claude/blob/main/LICENSE"
   },
-  "intended_use": "Static GitHub Pages landing site. Source artifacts remain on the main branch."
+  "distribution_note": "Distribution files are served from the repository main branch; the gh-pages branch contains only the public page surface and discovery files."
 }
