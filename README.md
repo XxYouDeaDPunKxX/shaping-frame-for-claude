@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="./assets/ChatGPT Image 23 mag 2026, 19_00_29.png" alt="ChatGPT Image 23 mag 2026, 19_00_29" width="100%">
+</p>
 # 🧠 Shaping Frame
 
 A cognitive layer for Claude that tracks epistemic weight during complex working
