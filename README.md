@@ -1,220 +1,263 @@
 <p align="center">
-  <img src="./assets/ChatGPT Image 23 mag 2026, 19_00_29.png" alt="ChatGPT Image 23 mag 2026, 19_00_29" width="100%">
+  <img src="./assets/ChatGPT Image 23 mag 2026, 19_00_29.png" alt="Shaping Frame: ideas moving through source, weight, and decision thresholds" width="100%">
 </p>
-# 🧠 Shaping Frame
 
-A cognitive layer for Claude that tracks epistemic weight during complex working
-sessions: what is still a hypothesis, what has been decided, and what Claude
-generated but you have not validated yet.
+# Shaping Frame
 
-It does not produce output on its own. It surfaces only when something starts
-crossing a threshold without your explicit approval.
+**Decision-state tracking for Claude working sessions.**
 
-## 📦 Install
+Shaping Frame is a Claude Desktop skill that keeps proposed, approved, rejected,
+and unverified material from collapsing into one undifferentiated conversation.
+It watches for the moment an idea starts behaving like a decision and surfaces a
+checkpoint before that idea becomes a constraint, specification, name, or other
+persistent artifact.
 
-From a Claude Desktop chat:
+It does not make decisions for you. It makes unapproved promotion visible.
+
+- [Download `shaping-frame.skill`](./shaping-frame.skill)
+- [Open the required custom instruction](./CUSTOM_INSTRUCTION.txt)
+- [Inspect the package contents](#package-contents)
+
+## The problem it addresses
+
+Long working sessions create decision drift. A suggestion may be repeated,
+reused as a premise, and eventually written into an artifact even though nobody
+explicitly approved it. Imported documents, model assumptions, and generated
+proposals can also acquire more authority than their source warrants.
+
+Shaping Frame separates those materials and tracks how their operational weight
+changes during the session.
+
+## What it does
+
+Shaping Frame:
+
+- distinguishes operator decisions, imported material, Claude-generated
+  proposals, model priors, and documentary evidence;
+- tracks ideas through `Spark`, `Candidate`, `Tracked`, `Crystallized`, and
+  `Rejected` states;
+- marks material that is quarantined, contaminated by conversational residue,
+  or still needs verification;
+- applies an anti-recency rule so the latest formulation does not win merely
+  because it was said last;
+- surfaces compact checkpoints only when material crosses a structural
+  threshold;
+- runs a pre-write gate before reusable rules, specifications, architecture, or
+  other structural artifacts are persisted.
+
+## What it does not do
+
+Shaping Frame is not:
+
+- a persistent memory system;
+- a factual verification service;
+- a background hook that intercepts every Claude action;
+- a file, code, or project-management tool;
+- an autonomous decision maker;
+- a guarantee that every threshold crossing will be detected.
+
+The skill operates through Claude's active conversation context. It reduces
+silent drift; it cannot eliminate it.
+
+## Quick start
+
+### 1. Upload the skill
+
+In Claude Desktop, open the Skills manager:
 
 ```text
-+ -> Skills -> Manage Skills
++ → Skills → Manage Skills
 ```
 
-This opens Claude's `Customize > Skills` area.
-
-In the Skills panel, click the `+` button in the center column, then choose:
+Choose:
 
 ```text
-+ Create skill -> Upload a skill
+Create skill → Upload a skill
 ```
 
-Install `shaping-frame.skill`.
+Upload [`shaping-frame.skill`](./shaping-frame.skill).
 
-Do not stop in the public skills directory. For this file, use:
+> Claude Desktop labels may move between releases. The required action is to
+> upload the local `.skill` package, not to select an item from the public skill
+> directory.
+
+### 2. Add the instruction anchor
+
+Copy the complete contents of
+[`CUSTOM_INSTRUCTION.txt`](./CUSTOM_INSTRUCTION.txt) into Claude's custom
+instructions:
 
 ```text
-+ Create skill -> Upload a skill
+Initials → Settings → Instructions for Claude
 ```
 
-## 🔧 Activate
+This anchor is required by the package's operating model. It tells Claude to
+read and apply the full frame rather than treating it as reference material to
+summarize.
 
-Add the contents of `CUSTOM_INSTRUCTION.txt` to `Instructions for Claude`.
+### 3. Start a new working session
 
-In Claude Desktop:
+Use Shaping Frame during sessions where ideas may become decisions, such as:
+
+- product or system shaping;
+- architecture and specification work;
+- naming and positioning;
+- review of imported documents or prior conversations;
+- adversarial review;
+- long sessions with several competing constraints.
+
+### 4. Verify the behavior
+
+Try this two-step check in a fresh session:
 
 ```text
-initials -> Settings -> Instructions for Claude
+Propose three names for this project. Keep all three as candidates; do not
+select one.
 ```
 
-This is required. Without it, Claude may treat this like any other skill and
-summarize it instead of running it in full.
+Then ask:
 
-## ⚠️ Known limit
+```text
+Use the strongest name in a reusable specification.
+```
 
-Claude does not run this skill through a background hook before each write or
-decision. The frame is reconstructed through the conversation context and the
-custom instruction anchor.
+Expected behavior: Claude should not silently promote one of its own proposals.
+It should surface that a decision is required before the candidate becomes a
+persistent name or specification input.
 
-In long or fast sessions, some threshold crossings may be missed. That is a
-host constraint, not a skill defect.
+The exact wording may vary, but the decision boundary should remain visible.
 
-## 🤖 AI-assisted development
+## Example checkpoint
 
-This project was developed with AI assistance.
+When an unapproved element begins to cross a threshold, the skill can surface a
+compact block like this:
 
-The project, documentation, and repository materials were shaped through
-human-directed work supported by AI tools during drafting, structuring, review,
-and refinement.
+```text
+Dogana:
+- Element: 30-second default timeout
+- Current state: Candidate
+- Flag: Needs verification
+- Why it is rising: it is being reused as an architectural constraint
+- Risk: an unverified assumption would become part of the specification
+- Decision needed: verify the timeout or explicitly approve it as a constraint
+```
 
-AI assistance does not make the project automatically correct, complete, or
-suitable for every use case. Read it, test it, and adapt it to your own
-context.
+The frame remains quiet when no active decision boundary is being crossed.
 
-## 📜 License
+## How the frame works
 
-This project is licensed under CC BY-SA 4.0.
+### Source classes
 
-See `LICENSE`.
+| Class | Meaning | Decision authority |
+| --- | --- | --- |
+| `OP` | Current operator intent, correction, constraint, or decision | Decides direction |
+| `EXT` | Imported documents, transcripts, notes, or other external material | Relevant, but not approved by default |
+| `AI` | Claude-generated proposals inside the current session | Starts as a proposal |
+| `MP` | Model priors, conventions, and generic assumptions | Must not silently ground structural decisions |
+| `DSK` | State read from files, tools, or other documentary sources | Describes existing evidence; does not decide intent |
 
-<details>
-<summary>🔬 Technical notes</summary>
+### Weight states
 
-## 🧠 What This Skill Is
+| State | Meaning |
+| --- | --- |
+| `Spark` | Raw intuition or early idea |
+| `Candidate` | A possible direction that has not been selected |
+| `Tracked` | Unapproved material gaining operational weight |
+| `Crystallized` | Explicitly approved by the operator |
+| `Rejected` | Discarded and retained only to prevent accidental return |
 
-Shaping Frame is not a file tool, code tool, writing template, memory layer, or
-general prompt style.
+The frame also uses three transversal flags:
 
-It is a session-level cognitive frame for Claude Chat/Desktop. Its job is to
-track epistemic weight while the conversation is still moving: ideas,
-constraints, imported material, Claude-generated proposals, model priors, and
-operator decisions.
+- `Quarantined`: potentially useful, but unsafe for structural output;
+- `Contaminated`: carries embedded assumptions or conversational residue;
+- `Needs verification`: requires documentary, tool, or external verification
+  before it can ground a factual or technical decision.
 
-The core failure mode it targets is silent promotion. A phrase, suggestion,
-assumption, or imported fragment gets repeated, reused, or built on until it
-starts behaving like a decision, even though the operator never approved it.
+### Thresholds
 
-## 📦 Package Structure
+A checkpoint becomes relevant when material starts crossing boundaries such as:
 
-Published unit:
+```text
+proposal → premise
+premise → constraint
+constraint → decision
+decision → artifact
+draft → specification
+provisional phrase → naming
+local compromise → architecture
+AI / MP / EXT → implicit operator decision
+factual hypothesis → technical foundation
+```
+
+## Package contents
+
+The repository ships one installable package:
 
 ```text
 shaping-frame.skill
 ```
 
-The package contains:
+The `.skill` file is a ZIP archive containing four Markdown files and no
+executable scripts:
 
 ```text
-shaping-frame/SKILL.md
-shaping-frame/references/frame.md
-shaping-frame/references/dogana.md
-shaping-frame/references/snapshot.md
+shaping-frame/
+├── SKILL.md
+└── references/
+    ├── dogana.md
+    ├── frame.md
+    └── snapshot.md
 ```
 
-## 🧭 Activation Model
-
-Claude Chat/Desktop does not provide a hook layer for this skill. There is no
-automatic pre-write interception and no persistent runtime guard.
-
-The custom instruction is therefore part of the operating model. It acts as the
-always-on floor that tells Claude to read and apply the skill as a full frame,
-not as a normal reference to summarize.
-
-The skill package provides the full frame and reference files. The custom
-instruction anchors the expectation that the frame is active during working
-sessions.
-
-## 🧩 Source Classes
-
-The frame separates source classes because each class carries a different kind
-of authority:
-
-- `OP`: operator intent, correction, constraint, or decision
-- `EXT`: external material brought into the conversation
-- `AI`: Claude-generated proposal inside the session
-- `MP`: model prior, convention, or generic assumption
-- `DSK`: documentary state from uploaded or available material
-
-`OP` decides direction. `DSK` describes available evidence. `EXT` is relevant
-because the operator brought it, but relevance is not approval. `AI` and `MP`
-start low unless the operator validates them.
-
-## ⚖️ Weight States
-
-The skill tracks movement through states:
-
-- `Spark`: raw intuition or early idea
-- `Candidate`: possible direction, not decided
-- `Tracked`: gaining operational weight without approval
-- `Crystallized`: approved by the operator
-- `Rejected`: discarded and tracked to prevent return through inertia
-
-It also uses flags:
-
-- `Quarantined`: useful but unsafe for structural output
-- `Contaminated`: carries conversational residue or embedded assumptions
-- `Needs verification`: requires documentary, tool, or external verification
-  before grounding a factual or technical decision
-
-## 🚧 Thresholds
-
-The checkpoint fires when material starts crossing a structural boundary:
+Repository-level files:
 
 ```text
-proposal -> premise
-premise -> constraint
-constraint -> decision
-decision -> artifact
-draft -> spec
-provisional phrase -> naming
-local compromise -> architecture
-AI/MP/EXT -> implicit OP
-factual hypothesis -> technical foundation
+CUSTOM_INSTRUCTION.txt   Required custom-instruction anchor
+LICENSE                  CC BY-SA 4.0 license text
+README.md                 Project guide
+context7.json             Context7 project metadata
+shaping-frame.skill       Installable Claude skill package
+assets/                   README media
 ```
 
-When one of these crossings starts to happen, the skill can surface a compact
-checkpoint instead of letting the material continue silently.
+## Operational boundaries
 
-## 📡 Surface Behavior
+The package has no persistent runtime guard. Claude reconstructs the frame from
+the active conversation and the custom-instruction anchor. In long, compressed,
+or rapidly changing sessions, some transitions may be missed.
 
-The frame is active every turn, but it should not emit tracking output every
-turn.
+The frame also does not verify factual claims by itself. It can mark a claim as
+needing verification, but the actual check must come from a file, tool, source,
+or operator decision.
 
-It surfaces when:
+Because the package is instruction-only, its effectiveness depends on the host
+model following the skill and retaining enough session context to apply it.
 
-- a new constraint or external material enters the session
-- the operator changes direction or scope
-- the operator asks where things stand
-- a draft begins turning into a spec
-- a name, rule, architecture, or reusable artifact is about to crystallize
-- a Claude-generated or model-prior element starts acting like operator intent
+## Inspect before installing
 
-Output should stay compact: inline tags when enough, checkpoint blocks when
-needed, and a stop only when unvetted material would become structural.
+The package is intentionally small. You can inspect it locally before upload:
 
-## 🕰️ Anti-Recency Rule
+```bash
+unzip -l shaping-frame.skill
+unzip -p shaping-frame.skill shaping-frame/SKILL.md | less
+```
 
-The latest formulation does not automatically win.
+To extract all package files:
 
-If two elements conflict, the frame requires Claude to separate them by source,
-state, and weight. A recent statement wins only when it is an explicit operator
-correction, revocation, or decision.
+```bash
+mkdir -p shaping-frame-inspection
+unzip shaping-frame.skill -d shaping-frame-inspection
+```
 
-This matters because long shaping sessions often create false decisions through
-conversation inertia.
+## Development provenance
 
-## 🧷 Custom Instruction Anchor
+The project and its documentation were developed through human-directed work
+with AI assistance during drafting, structuring, review, and refinement. AI
+assistance does not establish correctness or suitability for a particular
+workflow. Inspect the package, test its behavior, and adapt it to your operating
+context.
 
-`CUSTOM_INSTRUCTION.txt` is not part of the `.skill` archive. It must be added
-to `Instructions for Claude` separately.
+## License
 
-Its purpose is narrow: force full-read behavior and keep the frame active as a
-working posture. Without it, Claude may treat the skill like ordinary reference
-material and compress it before applying it.
-
-## ⚠️ Host Limits
-
-This skill cannot guarantee perfect continuity. Claude Chat/Desktop does not
-give the skill a persistent hook or a separate enforcement layer.
-
-The skill reduces drift by making threshold crossings visible. It does not
-eliminate drift.
-
-</details>
+Shaping Frame is licensed under
+[Creative Commons Attribution-ShareAlike 4.0 International](./LICENSE).
